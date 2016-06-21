@@ -2,4 +2,57 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--sizes-->
+    <dimen name="size_small_24">24dp</dimen>
+    <dimen name="size_medium_56">256dp</dimen>
+    <dimen name="size_large_72">72dp</dimen>
+
+
+    <!-- spaces-->
+    <dimen name="spacing_small_8">8dp</dimen>
+    <dimen name="spacing_normal_16">16dp</dimen>
+    <dimen name="spacing_medial_24">24dp</dimen>
+    <dimen name="spacing_medium_32">32dp</dimen>
+    <dimen name="spacing_large_54">54dp</dimen>
+    <dimen name="spacing_larger_72">72dp</dimen>
+
+    <!-- mobile-->
+    <dimen name="screen_margin_16">16dp</dimen>
+    <dimen name="content_from_left_edge_72">72dp</dimen>
+    <dimen name="status_bar_24">24dp</dimen>
+    <dimen name="toolbar_56">56dp</dimen>
+    <dimen name="subtitle_48">48dp</dimen>
+    <dimen name="item_72">72dp</dimen>
+    <dimen name="spaces_content_areas_8">8dp</dimen>
+    <dimen name="right_side_icon_32">32dp</dimen>
+    <dimen name="account_menu_48">48dp</dimen>
+    <dimen name="navigation_right_margin_56">56dp</dimen>
+
+    <!-- tablet-->
+    <dimen name="tablet_screen_margin_24">24dp</dimen>
+    <dimen name="tablet_content_from_left_edge_80">80dp</dimen>
+    <dimen name="tablet_card_padding_24">24dp</dimen>
+    <dimen name="tablet_card_content_padding_104">104dp</dimen>
+    <dimen name="tablet_status_bar_24">24dp</dimen>
+    <dimen name="tablet_item_64">64dp</dimen>
+    <dimen name="tablet_item_72">72dp</dimen>
+    <dimen name="tablet_spaces_content_areas_8">8dp</dimen>
+    <dimen name="tablet_icon_center_from_left_edge_52">52dp</dimen>
+    <dimen name="tablet_card_left_and_right_padding_32">32dp</dimen>
+    <dimen name="tablet_card_nav_item_left_padding_96">96dp</dimen>
+    <dimen name="tablet_subtitle_item_slider_48">48dp</dimen>
+    <dimen name="tablet_title_80">80dp</dimen>
+
+    <!-- touch target size-->
+    <dimen name="avatar_40">40dp</dimen>
+    <dimen name="icon_24">24dp</dimen>
+    <dimen name="touch_target_48">48dp</dimen>
+
+
+
+
+
+
+
 </resources>
