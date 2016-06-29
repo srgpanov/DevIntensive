@@ -5,7 +5,7 @@
 
     <!--sizes-->
     <dimen name="size_small_24">24dp</dimen>
-    <dimen name="size_medium_56">256dp</dimen>
+    <dimen name="size_medium_56">56dp</dimen>
     <dimen name="size_large_72">72dp</dimen>
 
 
@@ -49,6 +49,8 @@
     <dimen name="icon_24">24dp</dimen>
     <dimen name="touch_target_48">48dp</dimen>
     <dimen name="line_size">1dp</dimen>
+    <dimen name="profile_image_size">256dp</dimen>
+    <dimen name="fab_right_space">8dp</dimen>
 
 
 </resources>
