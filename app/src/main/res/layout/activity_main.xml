@@ -11,25 +11,59 @@
 <android.support.design.widget.CoordinatorLayout
     android:id="@+id/main_coordinator_container"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true">
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar_layout"
         android:theme="@style/AppTheme.AppBarOverlay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent">
+        android:background="@color/color_primary"
+        android:fitsSystemWindows="true">
         <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:contentScrim="@color/color_primary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
-            <ImageView
-                android:id="@+id/user_photo_img"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/profile_image_size"
-                android:scaleType="centerCrop"
-                android:src="@drawable/user_photo"
-                android:fitsSystemWindows="true"/>
+                android:fitsSystemWindows="true">
+                <ImageView
+                    android:id="@+id/user_photo_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/profile_image_size"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/user_photo"/>
+                <RelativeLayout
+                    android:id="@+id/profile_placeholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/grey_background"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_profile_placeholder_image"
+                        android:textColor="@color/white"
+                        android:fontFamily="sans-serif-medium"
+                        android:layout_centerHorizontal="true"
+                        android:layout_above="@+id/image_photo_placeholder"
+                        android:layout_marginBottom="@dimen/spacing_small_8"/>
+                    <ImageView
+                        android:id="@+id/image_photo_placeholder"
+                        android:layout_width="@dimen/placeholder_photo_size_90"
+                        android:layout_height="@dimen/placeholder_photo_size_90"
+                        android:src="@drawable/add_photo"
+                        android:scaleType="centerCrop"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="@dimen/size_medium_56"/>
+                </RelativeLayout>
+            </FrameLayout>
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -39,309 +73,9 @@
                 app:layout_collapseMode="pin">
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
-
-
     </android.support.design.widget.AppBarLayout>
 
-<android.support.v4.widget.NestedScrollView
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-<LinearLayout
-      android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.activities.MainActivity">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/tablet_title_80"
-        android:orientation="horizontal"
-        android:background="@color/grey">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="0.25"
-            android:gravity="center">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5"
-            android:textSize="24sp"
-            android:textColor="@color/white"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Рейтинг"
-                android:textSize="16sp"
-                android:textColor="@color/white"/>
-
-        </LinearLayout>
-        <View
-            android:layout_width="@dimen/line_size"
-            android:layout_height="match_parent"
-            android:background="@color/grey_light"
-            android:layout_marginTop="@dimen/spacing_small_8"
-            android:layout_marginBottom="@dimen/spacing_small_8"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="0.5"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5"
-                android:textSize="24sp"
-                android:textColor="@color/white"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Написано строк кода"
-                android:textSize="16sp"
-                android:textColor="@color/white"/>
-        </LinearLayout>
-        <View
-            android:layout_width="@dimen/line_size"
-            android:layout_height="match_parent"
-            android:background="@color/grey_light"
-            android:layout_marginTop="@dimen/spacing_small_8"
-            android:layout_marginBottom="@dimen/spacing_small_8"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="0.25"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5"
-                android:textSize="24sp"
-                android:textColor="@color/white"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Проектов"
-                android:textSize="16sp"
-                android:textColor="@color/white"/>
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/spacing_small_8"
-        android:layout_marginBottom="@dimen/spacing_small_8">
-        <ImageView
-            style="@style/icon.left"
-            android:src="@drawable/ic_call_black_24dp"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_large_72"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="bottom"
-            android:layout_marginLeft="@dimen/spacing_medium_32"
-            android:layout_marginRight="@dimen/spacing_normal_16">
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/phone_et"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:hint="@string/phone_hint"
-                    android:inputType="phone"
-                    android:text="89288439703"
-                    android:enabled="false"
-                    android:textColor="@color/black"
-                    android:focusable="false"
-                    android:textColorHint="@color/grey"/>
-            </android.support.design.widget.TextInputLayout>
-        </LinearLayout>
-        <ImageView
-            style="@style/icon.right"
-            android:src="@drawable/ic_phone_in_talk_black_24dp">
-        </ImageView>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_size"
-        android:background="@color/grey_light"
-        android:layout_marginLeft="@dimen/size_large_72"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/spacing_small_8"
-        android:layout_marginBottom="@dimen/spacing_small_8">
-        <ImageView
-            style="@style/icon.left"
-            android:src="@drawable/ic_send_black_24dp"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_large_72"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="bottom"
-            android:layout_marginLeft="@dimen/spacing_medium_32"
-            android:layout_marginRight="@dimen/spacing_normal_16">
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/mail_et"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:hint="@string/mail_hint"
-                    android:inputType="textEmailAddress"
-                    android:enabled="false"
-                    android:text="srgpanov@yandex.ru"
-                    android:textColor="@color/black"
-                    android:focusable="false"
-                    android:textColorHint="@color/grey"/>
-            </android.support.design.widget.TextInputLayout>
-        </LinearLayout>
-        <ImageView
-            style="@style/icon.right"
-            android:src="@drawable/ic_mail_black_24dp">
-        </ImageView>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_size"
-        android:background="@color/grey_light"
-        android:layout_marginLeft="@dimen/size_large_72"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/spacing_small_8"
-        android:layout_marginBottom="@dimen/spacing_small_8">
-        <ImageView
-            style="@style/icon.left"
-            android:src="@drawable/vk_circle"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_large_72"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="bottom"
-            android:layout_marginLeft="@dimen/spacing_medium_32"
-            android:layout_marginRight="@dimen/spacing_normal_16">
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/vk_et"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:hint="@string/vk_hint"
-                    android:enabled="false"
-                    android:text="vk.com/id370865420"
-                    android:textColor="@color/black"
-                    android:focusable="false"
-                    android:textColorHint="@color/grey"/>
-            </android.support.design.widget.TextInputLayout>
-        </LinearLayout>
-        <ImageView
-            style="@style/icon.right"
-            android:src="@drawable/eye">
-        </ImageView>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_size"
-        android:background="@color/grey_light"
-        android:layout_marginLeft="@dimen/size_large_72"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/spacing_small_8"
-        android:layout_marginBottom="@dimen/spacing_small_8">
-        <ImageView
-            style="@style/icon.left"
-            android:src="@drawable/github_circle"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_large_72"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="bottom"
-            android:layout_marginLeft="@dimen/spacing_medium_32"
-            android:layout_marginRight="@dimen/spacing_normal_16">
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/repozitoriy_et"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:hint="@string/repositoriy_hint"
-                    android:enabled="false"
-                    android:text="github.com/srgpanov/DevIntensive"
-                    android:textColor="@color/black"
-                    android:focusable="false"
-                    android:textColorHint="@color/grey"/>
-            </android.support.design.widget.TextInputLayout>
-        </LinearLayout>
-        <ImageView
-            style="@style/icon.right"
-            android:src="@drawable/eye">
-        </ImageView>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_size"
-        android:background="@color/grey_light"
-        android:layout_marginLeft="@dimen/size_large_72"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/spacing_small_8"
-        android:layout_marginBottom="@dimen/spacing_small_8">
-        <ImageView
-            style="@style/icon.left"
-            android:src="@drawable/account_circle"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="bottom"
-            android:layout_marginLeft="@dimen/spacing_medium_32"
-            android:layout_marginRight="@dimen/spacing_normal_16">
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/about_et"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:hint="О себе"
-                    android:text="@string/about_text"
-                    android:enabled="false"
-                    android:textColor="@color/black"
-                    android:focusable="false"
-                    android:textColorHint="@color/grey"/>
-            </android.support.design.widget.TextInputLayout>
-        </LinearLayout>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_size"
-        android:background="@color/grey_light"
-        android:layout_marginLeft="@dimen/size_large_72"/>
-</LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    <include layout="@layout/user_profile_content"/>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
