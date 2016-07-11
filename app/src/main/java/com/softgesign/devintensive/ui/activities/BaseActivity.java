@@ -8,10 +8,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.softgesign.devintensive.R;
-import com.softgesign.devintensive.utils.ConstantManeger;
+import com.softgesign.devintensive.utils.ConstantManager;
 
 public class BaseActivity extends AppCompatActivity{
-    static final String TAG = ConstantManeger.TAG_PREFIX+"BaseActivity";
+    static final String TAG = ConstantManager.TAG_PREFIX+"BaseActivity";
     protected ProgressDialog mProgressDialog;
 
     public void showProgress(){
