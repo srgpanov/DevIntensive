@@ -33,7 +33,7 @@ public class BaseActivity extends AppCompatActivity{
             }
         }
     }
-    public void showEror(String message, Exception error){
+    public void showError(String message, Exception error){
         showToast(message);
         Log.e(TAG, String.valueOf(error));
     }
