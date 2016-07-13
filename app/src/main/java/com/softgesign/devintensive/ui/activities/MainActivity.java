@@ -35,6 +35,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.softgesign.devintensive.R;
 import com.softgesign.devintensive.data.manegers.DataManager;
@@ -76,6 +77,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.vk_et)EditText mUserVk;
     @BindView(R.id.repozitoriy_et)EditText mUserGit;
     @BindView(R.id.about_et)EditText mUserAbout;
+    @BindView(R.id.rating_value_txt)TextView mUserRatingValue;
+    @BindView(R.id.code_lines_value_txt)TextView mUserCodeLines;
+    @BindView(R.id.project_value_txt)TextView mUserProjectValue;
+    @BindViews({R.id.rating_value_txt,R.id.code_lines_value_txt,R.id.project_value_txt})
+    List<TextView>mUserValuesViews;
+    TextView mDrawerLayoutUserName;
+    TextView mDrawerLayoutEmail;
 
 
     @BindViews({R.id.phone_et, R.id.mail_et,R.id.vk_et,R.id.repozitoriy_et,R.id.about_et})
@@ -97,6 +105,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         Log.d(TAG, "onCreate");
         ButterKnife.bind(this);
 
+
         mFab.setOnClickListener(this);
         mProfilePlaceholder.setOnClickListener(this);
         mMakeCall.setOnClickListener(this);
@@ -113,8 +122,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         setupToolbar();
         setupDrawer();
+        initUserFields();// загружаем пользовательские данные
+        initUserInfoValue();
 
-        loadUserInfoValue();// загружаем пользовательские данные
         Picasso.with(this)// загружаем картинку в колапсинг тулбар
                 .load(mDataManager.getPreferencesManager().loadUserPhoto())
                 .placeholder(R.drawable.user_photo)
@@ -136,7 +146,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onPause();
         Log.d(TAG, "onPause");
         if (validateUserInfoValues(false)) {
-            saveUserInfoValue();
+            saveUserFields();
         }
     }
 
@@ -294,6 +304,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     return false;
                 }
             });
+            View header=mNavigationView.getHeaderView(0);
+
+            mDrawerLayoutUserName=(TextView) header.findViewById(R.id.user_name_txt);
+            mDrawerLayoutEmail=(TextView)header.findViewById(R.id.user_name_txt);
+            List<String> userData = mDataManager.getPreferencesManager().loadUserDrawerHeaderData();
+            mDrawerLayoutEmail.setText(userData.get(0));
+            String userName=userData.get(2)+" "+userData.get(1);
+            mDrawerLayoutUserName.setText(userName);
         }
     }
     private void changeEditMode(boolean mode) {//меняем режим редактирования, параметр mode - включение/выключение режима
@@ -318,26 +336,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 userValue.setFocusableInTouchMode(false);
             }
             mFab.setImageResource(R.drawable.ic_create_black_24dp);
-            saveUserInfoValue();
+            saveUserFields();
             hideProfilePlaceholder();
             unlockToolbar();
             mCollapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.white));
         }
     }
-    private void loadUserInfoValue() {//загружаем пользовательские данные
+    private void initUserFields() {//загружаем пользовательские данные
         List<String> userData = mDataManager.getPreferencesManager().loadUserDataProfile();
         for (int i = 0; i < userData.size(); i++) {
             mUserInfoViews.get(i).setText(userData.get(i));
         }
     }
-    private void saveUserInfoValue() {//сохраняем пользовательские данные
+    private void saveUserFields() {//сохраняем пользовательские данные
         List<String> userData = new ArrayList<>();
         for (EditText userFieldsView : mUserInfoViews) {
             userData.add(userFieldsView.getText().toString());
         }
         mDataManager.getPreferencesManager().saveUserProfileData(userData);
     }
-    private void loadPhotoFromGallery() {//загружаем фото из галлереи
+    private void initUserInfoValue(){
+        List<String>userData=mDataManager.getPreferencesManager().loadUserProfileValues();
+        for (int i = 0; i <userData.size() ; i++) {
+            mUserValuesViews.get(i).setText(userData.get(i));
+        }
+    }
+        private void loadPhotoFromGallery() {//загружаем фото из галлереи
         Intent takeGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         takeGalleryIntent.setType("image/*");
         startActivityForResult(Intent.createChooser(takeGalleryIntent, getString(R.string.user_profile_chose_message)), ConstantManager.REQUEST_GALLERY_PICTURE);

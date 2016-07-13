@@ -31,4 +31,5 @@
     <string name="validation_msg_email">Некоректные данные. Формат ввода  xxx@xx.xx</string>
     <string name="validation_msg_vk">Некоректные данные. Формат ввода vk.com/ххх</string>
     <string name="validation_msg_git">Некоректные данные. Формат ввода github.com/ххх</string>
+    <string name="drawer_header_user_name">Панов Сергей</string>
 </resources>

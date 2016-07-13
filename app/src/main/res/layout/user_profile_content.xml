@@ -24,6 +24,7 @@
                     style="@style/liner_layout_grey_top"
                     android:layout_weight="0.25"            >
                     <TextView
+                        android:id="@+id/rating_value_txt"
                         style="@style/text_field_grey.24sp"
                         android:text="@string/rating_value"/>
                     <TextView
@@ -37,6 +38,7 @@
                     android:layout_weight="0.5"
                     >
                     <TextView
+                        android:id="@+id/code_lines_value_txt"
                         style="@style/text_field_grey.24sp"
                         android:text="@string/code_written_value"/>
                     <TextView
@@ -49,6 +51,7 @@
                     style="@style/liner_layout_grey_top"
                     android:layout_weight="0.25"            >
                     <TextView
+                        android:id="@+id/project_value_txt"
                         style="@style/text_field_grey.24sp"
                         android:text="@string/project_value"/>
                     <TextView
