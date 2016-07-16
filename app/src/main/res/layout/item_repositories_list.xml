@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_72">
+    <ImageView
+        style="@style/icon.left"
+        android:src="@drawable/github_circle"/>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/spacing_larger_72"
+        android:layout_marginStart="@dimen/spacing_larger_72"
+        android:layout_marginRight="@dimen/spacing_larger_72"
+        android:layout_marginEnd="@dimen/spacing_larger_72"
+        android:layout_centerVertical="true">
+        <TextView
+            android:id="@+id/repozitoriy_item_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:hint="@string/repositoriy_hint"
+            android:text="@string/repositoriy_value_et"/>
+    </android.support.design.widget.TextInputLayout>
+    <ImageView
+        style="@style/icon.right"
+        android:src = "@drawable/eye"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+
+</RelativeLayout>

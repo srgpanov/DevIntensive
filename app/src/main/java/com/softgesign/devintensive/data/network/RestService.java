@@ -1,11 +1,14 @@
 package com.softgesign.devintensive.data.network;
 
 import com.softgesign.devintensive.data.network.req.UserLoginRequest;
+import com.softgesign.devintensive.data.network.res.UploadPhotoResponse;
+import com.softgesign.devintensive.data.network.res.UserListResponse;
 import com.softgesign.devintensive.data.network.res.UserModelResponse;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -22,6 +25,9 @@ public interface RestService {
 
     @Multipart
     @POST("user/{userId}/publicValues/profilePhoto")
-    Call<UserModelResponse> uploadPhoto(@Path("userId")String userId, @Part MultipartBody.Part file);
+    Call<UploadPhotoResponse> uploadPhoto(@Path("userId")String userId, @Part MultipartBody.Part file);
+
+    @GET("user/list?orderBy=rating")
+    Call<UserListResponse> getUserList();
 
 }
