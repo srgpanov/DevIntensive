@@ -74,7 +74,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         saveUserFields(userModel);
         saveUserFieldsDrawHeader(userModel);
 
-        Intent loginIntent = new Intent(this,MainActivity.class);
+        Intent loginIntent = new Intent(this,UserListActivity.class);
         startActivity(loginIntent);
     }
     private void signIn(){
