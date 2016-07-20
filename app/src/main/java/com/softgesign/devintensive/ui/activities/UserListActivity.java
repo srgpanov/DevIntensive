@@ -16,13 +16,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.softgesign.devintensive.R;
 import com.softgesign.devintensive.data.manegers.DataManager;
-import com.softgesign.devintensive.data.network.res.UserListResponse;
+import com.softgesign.devintensive.data.storage.models.User;
 import com.softgesign.devintensive.data.storage.models.UserDTO;
 import com.softgesign.devintensive.ui.adapters.UsersAdapter;
 import com.softgesign.devintensive.utils.ConstantManager;
@@ -31,9 +30,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class UserListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -44,7 +40,7 @@ public class UserListActivity extends AppCompatActivity implements SearchView.On
 
     private DataManager mDataManager;
     private UsersAdapter mUsersAdapter;
-    private List<UserListResponse.UserData> mUsers;
+    private List<User> mUsers;
     private static final String TAG= ConstantManager.TAG_PREFIX+" UserListActivity";
 
     @Override
@@ -59,7 +55,7 @@ public class UserListActivity extends AppCompatActivity implements SearchView.On
 
         setupToolbar();
         setupDrawer();
-        loadUsers();
+        loadUsersFromDb();
     }
 
 
@@ -101,43 +97,25 @@ public class UserListActivity extends AppCompatActivity implements SearchView.On
         Snackbar.make(mCoordinatorLayout,message,Snackbar.LENGTH_LONG).show();
     }
 
-    private void loadUsers() {
-        Call<UserListResponse> call=mDataManager.getUserList();
-        call.enqueue(new Callback<UserListResponse>() {
-            @Override
-            public void onResponse(Call<UserListResponse> call, Response<UserListResponse> response) {
-                try{
-                    if(response.code()==200){
-                    mUsers=response.body().getData();
-                    mUsersAdapter=new UsersAdapter(mUsers, new UsersAdapter.UserViewHolder.CustomClickListener() {
-                        @Override
-                        public void onUserClickListener(int position) {
-                            showSnackBar("Пользователь с индексом "+ position);
-                            UserDTO userDTO = new UserDTO(mUsers.get(position));
-                            Intent profileIntent = new Intent(UserListActivity.this, ProfileUserActivity.class);
-                            profileIntent.putExtra(ConstantManager.PARCELABLE_KEY,userDTO);
-                            startActivity(profileIntent);
-                        }
-                    });
-                    mRecyclerView.setAdapter(mUsersAdapter);
-                    }else if(response.code()==401){
-                        showSnackBar("401");
-                    }else {
-                        showSnackBar("Всё пропало, ошибка" + String.valueOf(response.code()));
-                    }
-                }
-                catch (NullPointerException e){
-                    Log.e(TAG, e.toString());
-                    showSnackBar("Что-то пошло не так");
-                }
-            }
+    private void loadUsersFromDb() {
+        if(mUsers.size()==0){
+            showSnackBar("Список пользователей не может быть загуржен");
+        }else {
+        mUsers= mDataManager.getUserListFromDb();
+        mUsersAdapter=new UsersAdapter(mUsers, new UsersAdapter.UserViewHolder.CustomClickListener() {
+                              @Override
+                              public void onUserClickListener(int position) {
+                                  showSnackBar("Пользователь с индексом "+ position);
+                                  UserDTO userDTO = new UserDTO(mUsers.get(position));
+                                  Intent profileIntent = new Intent(UserListActivity.this, ProfileUserActivity.class);
+                                  profileIntent.putExtra(ConstantManager.PARCELABLE_KEY,userDTO);
+                                  startActivity(profileIntent);
+                              }
+                          });
+        mRecyclerView.setAdapter(mUsersAdapter);
 
-            @Override
-            public void onFailure(Call<UserListResponse> call, Throwable t) {
-
-            }
-        });
-    }
+  //
+    }}
 
     private void setupDrawer() {
         //TODO: реализовать переход в другую активити при клике по элементу меню
