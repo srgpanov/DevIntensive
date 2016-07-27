@@ -3,9 +3,6 @@ package com.softgesign.devintensive.data.storage.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.softgesign.devintensive.data.network.res.UserListResponse;
-import com.softgesign.devintensive.data.network.res.UserModelResponse;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,16 +16,16 @@ public class UserDTO implements Parcelable {
     private String mBio;
     private List<String> mRepositories;
 
-    public UserDTO(UserListResponse.UserData userData) {
+    public UserDTO(User userData) {
         List<String>repoLink=new ArrayList<>();
-        mPhoto = userData.getPublicInfo().getPhoto();
+        mPhoto = userData.getPhoto();
         mFullName = userData.getFullName();
-        mRating = String.valueOf(userData.getProfileValues().getRating());
-        mCodeLines = String.valueOf(userData.getProfileValues().getLinesCode());
-        mProjects = String.valueOf(userData.getProfileValues().getProjects());
-        mBio = userData.getPublicInfo().getBio();
-        for (UserModelResponse.Repo gitLink:userData.getRepositories().getRepositories()){
-            repoLink.add(gitLink.getGit());
+        mRating = String.valueOf(userData.getRating());
+        mCodeLines = String.valueOf(userData.getCodeLines());
+        mProjects = String.valueOf(userData.getProjects());
+        mBio = userData.getBio();
+        for (Repository gitLink:userData.getRepositories()){
+            repoLink.add(gitLink.getRepositoryName());
         }
 
         mRepositories = repoLink;

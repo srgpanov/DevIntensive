@@ -67,6 +67,10 @@ public class UserListResponse {
         public UserModelResponse.ProfileValues getProfileValues() {
             return profileValues;
         }
+
+        public String getId() {
+            return id;
+        }
     }
 
 }

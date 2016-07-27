@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +15,13 @@ import android.widget.TextView;
 import com.softgesign.devintensive.R;
 import com.softgesign.devintensive.data.manegers.DataManager;
 import com.softgesign.devintensive.data.network.req.UserLoginRequest;
+import com.softgesign.devintensive.data.network.res.UserListResponse;
 import com.softgesign.devintensive.data.network.res.UserModelResponse;
+import com.softgesign.devintensive.data.storage.models.Repository;
+import com.softgesign.devintensive.data.storage.models.RepositoryDao;
+import com.softgesign.devintensive.data.storage.models.User;
+import com.softgesign.devintensive.data.storage.models.UserDao;
+import com.softgesign.devintensive.utils.AppConfig;
 import com.softgesign.devintensive.utils.NetworkStatusCheker;
 
 import java.util.ArrayList;
@@ -35,6 +42,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @BindView(R.id.login_email_et)EditText mLogin;
     @BindView(R.id.login_password_et)EditText mPassword;
     private DataManager mDataManager;
+    private RepositoryDao mRepositoryDao;
+    private UserDao mUserDao;
 
 
     @Override
@@ -43,6 +52,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         setContentView(R.layout.activity_authorization);
         ButterKnife.bind(this);
         mDataManager = DataManager.getInstance();
+        mUserDao=mDataManager.getDaoSession().getUserDao();
+        mRepositoryDao=mDataManager.getDaoSession().getRepositoryDao();
 
         mSignInBtn.setOnClickListener(this);
         mRememberPasswordTxt.setOnClickListener(this);
@@ -73,9 +84,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         saveUserInfoValues(userModel);
         saveUserFields(userModel);
         saveUserFieldsDrawHeader(userModel);
+        saveUserInDb();
 
-        Intent loginIntent = new Intent(this,UserListActivity.class);
-        startActivity(loginIntent);
+        android.os.Handler handler = new android.os.Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent loginIntent = new Intent(LoginActivity.this,UserListActivity.class);
+                startActivity(loginIntent);
+            }
+        }, AppConfig.START_DELAY);
+
+
     }
     private void signIn(){
         if(NetworkStatusCheker.isNetworkAvailable(this)){
@@ -125,6 +145,62 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         userData.add(userModel.getData().getUser().getFirstName());
         userData.add(userModel.getData().getUser().getSecondName());
         mDataManager.getPreferencesManager().saveUserDrawerHeaderData(userData);
+    }
+    private void saveUserInDb(){
+        Call<UserListResponse> call=mDataManager.getUserListFromNetwork();
+        call.enqueue(new Callback<UserListResponse>() {
+            @Override
+            public void onResponse(Call<UserListResponse> call, Response<UserListResponse> response) {
+
+                    if(response.code()==200){
+                        List<Repository> allRepositories = new ArrayList<Repository>();
+                        List<User> allUsers=new ArrayList<User>();
+                        for(UserListResponse.UserData userRes :response.body().getData()){
+                            allRepositories.addAll(getRepoListFromUserRes(userRes));
+                            allUsers.add(new User(userRes));
+                        }
+                        mRepositoryDao.insertOrReplaceInTx(allRepositories);
+                        mUserDao.insertOrReplaceInTx(allUsers);
+                    }
+                    else
+                    {
+                        showSnackBar("Список пользователей не может быть получен");
+                        Log.e(TAG,"onResponse: "+String.valueOf(response.errorBody().source()));
+                 //       mUsers=response.body().getData();
+                 //       mUsersAdapter=new UsersAdapter(mUsers, new UsersAdapter.UserViewHolder.CustomClickListener() {
+                 //           @Override
+                 //           public void onUserClickListener(int position) {
+                 //               showSnackBar("Пользователь с индексом "+ position);
+                 //               UserDTO userDTO = new UserDTO(mUsers.get(position));
+                 //               Intent profileIntent = new Intent(UserListActivity.this, ProfileUserActivity.class);
+                 //               profileIntent.putExtra(ConstantManager.PARCELABLE_KEY,userDTO);
+                 //               startActivity(profileIntent);
+                 //           }
+                 //       });
+                 //       mRecyclerView.setAdapter(mUsersAdapter);
+                 //  }else if(response.code()==401){
+                 //      showSnackBar("401");
+                 //  }else {
+                 //      showSnackBar("Всё пропало, ошибка" + String.valueOf(response.code()));
+                 //  }
+                }
+
+            };
+
+            @Override
+            public void onFailure(Call<UserListResponse> call, Throwable t) {
+
+            }
+        });
+    }
+    private List<Repository> getRepoListFromUserRes(UserListResponse.UserData userData){
+        final  String userId=userData.getId();
+        List<Repository> repositories=new ArrayList<>();
+        for(UserModelResponse.Repo repo:userData.getRepositories().getRepositories()){
+            repositories.add(new Repository(repo,userId));
+
+        }
+        return repositories;
     }
 
 

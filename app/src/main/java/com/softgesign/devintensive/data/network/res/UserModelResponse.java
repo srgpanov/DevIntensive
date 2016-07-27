@@ -112,8 +112,14 @@ public class UserModelResponse {
         @SerializedName("git")
         @Expose
         private String git;
+
+        public String getId() {
+            return id;
+        }
+
         @SerializedName("title")
         @Expose
+
         private String title;
 
         public String getGit() {
